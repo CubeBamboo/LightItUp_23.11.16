@@ -12,19 +12,19 @@ namespace UI
 
         private void FixedUpdate()
         {
-            UpdateScoreText();
-            UpdateEnergyBar();
+            UpdateScoreText(Environment.BGSquare.totalLightness, Core.GameManager.Instance.lightnessGoal);
+            UpdateEnergyBar(player.Energy, player.initEnergy);
         }
         
-        private void UpdateScoreText()
+        private void UpdateScoreText(float currValue, float goalValue)
         {
-            scoreText.text = "<color=orange>" + Environment.BGSquare.totalLightness + "</color>" + " / " + Core.GameManager.Instance.lightnessGoal;
+            scoreText.text = "<color=orange>" + currValue + "</color>" + " / " + goalValue;
         }
 
-        private void UpdateEnergyBar()
+        private void UpdateEnergyBar(float currValue, float initValue)
         {
             //BarContentHeight = currEnergy/initEnergy * BarBGHeight
-            float scale = player.Energy / player.initEnergy; if(scale > 1f) scale = 1f; else if (scale < -0.1f) scale = -0.1f;
+            float scale = currValue / initValue; if(scale > 1f) scale = 1f; else if (scale < -0.1f) scale = -0.1f;
             energyBarContent.rectTransform.sizeDelta = new Vector2(energyBarContent.rectTransform.sizeDelta.x, scale * energyBarBG.rectTransform.sizeDelta.y);
         }
     }
