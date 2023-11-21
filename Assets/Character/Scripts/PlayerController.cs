@@ -126,11 +126,11 @@ namespace Character
             switch (ctx.phase)
             {
                 case UnityEngine.InputSystem.InputActionPhase.Started:
-                    Debug.Log("mouseClickPressed");
+                    //Debug.Log("mouseClickPressed");
                     OnMousePressed();
                     break;
                 case UnityEngine.InputSystem.InputActionPhase.Canceled:
-                    Debug.Log("mouseClickRelesed");
+                    //Debug.Log("mouseClickRelesed");
                     OnMouseRelesed();
                     break;
             }

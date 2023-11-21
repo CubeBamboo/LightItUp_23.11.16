@@ -13,6 +13,7 @@ namespace Core
         public float lightnessGoal;
 
         [Header("UIPanel")]
+        public GameObject LoadingPanelExit;
         public GameObject gameOverPanel;
         public GameObject stageClearPanel;
         private bool isGameComplete;
@@ -24,6 +25,7 @@ namespace Core
 
         private void Start()
         {
+            LoadingPanelExit?.SetActive(true);
             player = GameObject.FindWithTag(Common.ConstString.PLAYER_TAG).GetComponent<Character.PlayerController>();
             //init
             Environment.BGSquare.totalLightness = 0;
