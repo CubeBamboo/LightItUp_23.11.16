@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Core
 {
     public class GameManager : Framework.MonoSingleton<GameManager>
-    {   
-        [Header("MonoGameObject")]
-        public Character.PlayerController player;
+    {
+        //[Header("MonoGameObject")]
+        private Character.PlayerController player;
         
         [Header("Level Related")]
         public float lightnessGoal;
@@ -16,6 +16,18 @@ namespace Core
         public GameObject gameOverPanel;
         public GameObject stageClearPanel;
         private bool isGameComplete;
+
+        protected override void Awake()
+        {
+            base.Awake();
+        }
+
+        private void Start()
+        {
+            player = GameObject.FindWithTag(Common.ConstString.PLAYER_TAG).GetComponent<Character.PlayerController>();
+            //init
+            Environment.BGSquare.totalLightness = 0;
+        }
 
         private void FixedUpdate()
         {
@@ -31,7 +43,7 @@ namespace Core
 
             //Debug.Log("GameManager:" + currEnergy);
 
-            if(currLightness > lightnessGoal)
+            if(currLightness >= lightnessGoal)
             {
                 Debug.Log("Stage Clear!");
                 stageClearPanel.SetActive(true);

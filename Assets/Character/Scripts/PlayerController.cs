@@ -9,6 +9,7 @@ namespace Character
         #region ComponentVariable
 
         private Rigidbody2D rb;
+        private UnityEngine.InputSystem.PlayerInput playerInput;
 
         private Vector2 vec2Position => transform.position;
 
@@ -24,10 +25,9 @@ namespace Character
         #region MoveVariable
 
         [Header("Move")]
-        public float speed;
-        //public bool canMove = true;
+        public float moveSpeed;
+        public float moveEnergyConsumption;
         private Vector2 mousePos;
-        //private bool readyMove;
 
         private Vector2 moveDir => (mousePos - vec2Position).normalized;
 
@@ -43,11 +43,21 @@ namespace Character
 
         #endregion
 
+        #region TriggerVariable
+
+        [Header("Trigger Related")]
+        public float meetTrickEnergyLoss;
+        public float meetTrickBackwardsDistance;
+        public GameObject redGhostEffect;
+
+        #endregion
+
         #region UIVariable
 
         [Header("UI")]
         public GameObject arrowUI;
         private bool isArrowUIShowing;
+        public System.Action energyBarEffectAction;
 
         #endregion
 
@@ -64,6 +74,7 @@ namespace Character
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
         }
 
         private void Start()
@@ -83,6 +94,19 @@ namespace Character
             //Move(mousePos - vec2Position);
             AttributionUpdate();
 
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if(other.CompareTag(Common.ConstString.BRICK_TAG))
+            {
+                OnMeetBrick();
+            }
+
+            if(other.CompareTag(Common.ConstString.MIRROR_TAG))
+            {
+                OnMeetMirror(-other.transform.up);
+            }
         }
 
         #endregion
@@ -150,7 +174,6 @@ namespace Character
 
         private void OnMousePressed()
         {
-
             //show arrow UI
             SetArrowUIActivity(true);
             //enter speedbreaker
@@ -169,14 +192,11 @@ namespace Character
 
         private void Move(Vector2 dir)
         {
-            //dont move if it's close enought to the cursor.
-            if (Vector2.Distance(mousePos, vec2Position) < 0.1f)
-            {
-                rb.velocity = Vector2.zero;
-                return;
-            }
+            //energy Consumed.
+            energy -= moveEnergyConsumption;
+            energyBarEffectAction();
 
-            rb.velocity = dir.normalized * speed;
+            rb.velocity = dir.normalized * moveSpeed;
         }
 
         #endregion
@@ -193,12 +213,50 @@ namespace Character
 
         #region Trigger
 
+        private void OnMeetBrick()
+        {
+            //后退
+            StartCoroutine(MeetBrickBackwards());
+            //物理计算
+            rb.velocity = Vector2.zero;
+            energy -= meetTrickEnergyLoss;
+            //残影
+            Instantiate(redGhostEffect, transform.position, Quaternion.identity);
+            //UI Effect
+            energyBarEffectAction();
+        }
+
+        private IEnumerator MeetBrickBackwards()
+        {
+            Vector2 targetPos = vec2Position - rb.velocity.normalized * meetTrickBackwardsDistance;  //要移动这么多vec2向量
+            rb.velocity = Vector2.zero;
+            float backwardsSpeed = 0.1f;
+
+            while(Vector2.Distance(targetPos, vec2Position) > 0.1f)
+            {
+                //移动
+                transform.position = Vector2.Lerp(transform.position, targetPos, backwardsSpeed);
+                yield return null;
+            }
+        }
+
+        //receive the normal direction of the mirror
+        private void OnMeetMirror(Vector2 normalDir)
+        {
+            Vector2 newDir = rb.velocity.normalized;
+            newDir *= -1;
+            Quaternion rot = Quaternion.FromToRotation(newDir, normalDir);
+            newDir = rot * rot * newDir;
+            rb.velocity = rb.velocity.magnitude * newDir;
+        }
+
         #endregion
 
         #region GameManager
 
         public void OnGameComplete()
         {
+            playerInput.enabled = false;
             rb.bodyType = RigidbodyType2D.Static;
         }
 

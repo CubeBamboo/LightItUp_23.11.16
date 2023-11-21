@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Brick
+  - Mirror
   layers:
   - Default
   - TransparentFX
@@ -47,6 +49,12 @@ TagManager:
   - name: Ground
     uniqueID: 1992228147
     locked: 0
+  - name: Item
+    uniqueID: 1803448227
+    locked: 0
   - name: Player
     uniqueID: 2748249423
+    locked: 0
+  - name: Top
+    uniqueID: 1899962277
     locked: 0

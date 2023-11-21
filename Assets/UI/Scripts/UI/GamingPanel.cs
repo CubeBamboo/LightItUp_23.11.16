@@ -9,6 +9,12 @@ namespace UI
         public UnityEngine.UI.Text scoreText;
         public UnityEngine.UI.Image energyBarBG, energyBarContent;
         public Character.PlayerController player;
+        public GameObject dropArrowEffect;
+
+        private void Start()
+        {
+            player.energyBarEffectAction += DropArrowEffect;
+        }
 
         private void FixedUpdate()
         {
@@ -26,6 +32,11 @@ namespace UI
             //BarContentHeight = currEnergy/initEnergy * BarBGHeight
             float scale = currValue / initValue; if(scale > 1f) scale = 1f; else if (scale < -0.1f) scale = -0.1f;
             energyBarContent.rectTransform.sizeDelta = new Vector2(energyBarContent.rectTransform.sizeDelta.x, scale * energyBarBG.rectTransform.sizeDelta.y);
+        }
+
+        private void DropArrowEffect()
+        {
+            dropArrowEffect.SetActive(true);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Environment
     {
         private bool isLit;
         private SpriteRenderer spriteRenderer;
-        private Color litColor = new Color(183f/255f, 183f/255f, 183f/255f);
+        //private Color litColor = new Color(192f/255f, 160f/255f, 96f/255f);    //183, 183, 183
         public static int totalLightness;
 
         private void Awake()
@@ -24,7 +24,7 @@ namespace Environment
             if (other.CompareTag(Common.ConstString.PLAYER_TAG))
             {
                 isLit = true;
-                spriteRenderer.color = litColor;
+                spriteRenderer.sprite = Core.GameResourcesLoadManager.LitOnSprite;
                 totalLightness++;
                 //Debug.Log("current totalLightness:" + totalLightness);
                 this.enabled = true;
