@@ -21,6 +21,11 @@ namespace Framework
                 Instance = this as T;
                 //Debug.Log("A new Instance!");
             }
+            else
+            {
+                //already have a same singleton object in the Scene.
+                Destroy(gameObject);
+            }
         }
     }
 }

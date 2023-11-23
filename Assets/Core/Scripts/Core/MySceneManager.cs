@@ -8,51 +8,49 @@ namespace Core
     public class MySceneManager : Framework.MonoSingleton<MySceneManager>
     {
         public GameObject loadingPanelEnter;
+        public GameObject loadingPanelExit;
+        public static Common.SceneIndex activeSceneIndex => (Common.SceneIndex)SceneManager.GetActiveScene().buildIndex;
 
-        public static Coroutine AsyncLoadScene(int sceneBuildIndex)
+        public Coroutine LoadingCoroutine { get; private set; }
+
+        protected override void Awake()
         {
-            return Instance.StartCoroutine(m_AsyncLoadScene(sceneBuildIndex));
+            base.Awake();
+            DontDestroyOnLoad(gameObject);
         }
 
-        private static IEnumerator m_AsyncLoadScene(int sceneBuildIndex)
+        #region AsyncLoadScene
+
+        public static void AsyncLoadSceneWithFade(Common.SceneIndex sceneBuildIndex)
         {
-            Debug.Log("AsyncLoadScene");
-            //LoadSceneAsync
-            AsyncOperation op = SceneManager.LoadSceneAsync(sceneBuildIndex);
-            op.allowSceneActivation = false;
+            if (Instance)
+            {
+                if (Instance.LoadingCoroutine != null) return;
 
-            //show animation
-            Instance.loadingPanelEnter.SetActive(true);  //TODO: where is loadingPanelExit ?
-            yield return new WaitForSeconds(0.8f);  //wait for the animtion
-
-            op.allowSceneActivation = true;
+                Instance.LoadingCoroutine = Instance.StartCoroutine(pAsyncLoadSceneWithFade((int)sceneBuildIndex));
+            }
+            else
+            {
+                SceneManager.LoadSceneAsync((int)sceneBuildIndex);
+            }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sceneBuildIndex"></param>
-        /// <param name="delayTimeBefore"> Delay Time before show the Loading Panel. </param>
-        /// <param name="delayTimeAfter"> Delay Time after show the Loading Panel.</param>
-        /// <returns></returns>
-        public static Coroutine AsyncLoadSceneWithDelay(int sceneBuildIndex, float delayTimeBefore, float delayTimeAfter)
-        {
-            return Instance.StartCoroutine(m_AsyncLoadSceneWithDelay(sceneBuildIndex, delayTimeBefore, delayTimeAfter));
-        }
-
-        private static IEnumerator m_AsyncLoadSceneWithDelay(int sceneBuildIndex, float delayTimeBefore, float delayTimeAfter)
+        private static IEnumerator pAsyncLoadSceneWithFade(int sceneBuildIndex)
         {
             //LoadSceneAsync
             AsyncOperation op = SceneManager.LoadSceneAsync(sceneBuildIndex);
             op.allowSceneActivation = false;
-            //delay
-            yield return new WaitForSeconds(delayTimeBefore);
 
-            //show animation
-            Instance.loadingPanelEnter.SetActive(true);  //TODO: where is loadingPanelExit ?
-            yield return new WaitForSeconds(delayTimeAfter);  //wait for the animtion
+            //enter loadingPanel
+            Instance.loadingPanelEnter.SetActive(true);
+            yield return new WaitForSeconds(1.5f);  //wait for the animtion
 
             op.allowSceneActivation = true;
+            Instance.loadingPanelExit.SetActive(true);
+            Instance.loadingPanelEnter.SetActive(false);
+            Instance.LoadingCoroutine = null;   //TODO: is it necessary ?
         }
+
+        #endregion
     }
 }

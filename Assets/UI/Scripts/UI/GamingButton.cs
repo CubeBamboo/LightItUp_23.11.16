@@ -11,25 +11,23 @@ namespace UI
 
         public void Retry()
         {
-            //加载当前场景
             Debug.Log("Retry!");
-            Core.MySceneManager.AsyncLoadScene(SceneManager.GetActiveScene().buildIndex);
-            //Core.MySceneManager.Instance.F();
+            Core.MySceneManager.AsyncLoadSceneWithFade(Core.MySceneManager.activeSceneIndex);
         }
 
         public void BackToMenu()
         {
-            //加载主界面场景
-            
             Debug.Log("Back To Menu!");
-
+            Core.MySceneManager.AsyncLoadSceneWithFade(Common.SceneIndex.MAIN_MENU);
         }
 
         public void EnterNextLevel()
         {
-            //加载下一关场景
             Debug.Log("Enter Next Level!");
-
+            Common.SceneIndex nextLevelIndex = Core.MySceneManager.activeSceneIndex + 1;
+            nextLevelIndex = nextLevelIndex < Common.SceneIndex.LEVEL_OUT_OF_RANGE ? nextLevelIndex : Common.SceneIndex.MAIN_MENU;
+            Core.MySceneManager.AsyncLoadSceneWithFade(nextLevelIndex);
+            //TODO: you can create a credits scene (show all the staff of the game or the game complete info.) and switch to it.
         }
 
         #endregion
@@ -38,32 +36,32 @@ namespace UI
 
         public void StartGame()
         {
-            MainMenu.SwitchToSelectLevel();
             Debug.Log("SelectLevel.");
+            MainMenu.SwitchToSelectLevel();
         }
 
         public void EnterTutorial()
         {
-            MainMenu.SetTutorialPanel(true);
             Debug.Log("Enter Tutorial.");
+            MainMenu.SetTutorialPanel(true);
         }
 
         public void ExitTutorial()
         {
-            MainMenu.SetTutorialPanel(false);
             Debug.Log("Exit Tutorial.");
+            MainMenu.SetTutorialPanel(false);
         }
 
         public void EnterCredits()
         {
-            MainMenu.SetCreditsPanel(true);
             Debug.Log("Enter Credits.");
+            MainMenu.SetCreditsPanel(true);
         }
 
         public void ExitCredits()
         {
-            MainMenu.SetCreditsPanel(false);
             Debug.Log("Exit Credits.");
+            MainMenu.SetCreditsPanel(false);
         }
 
         public void ExitGame()

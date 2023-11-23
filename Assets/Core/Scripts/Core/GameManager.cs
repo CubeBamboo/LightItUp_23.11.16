@@ -13,7 +13,6 @@ namespace Core
         public float lightnessGoal;
 
         [Header("UIPanel")]
-        public GameObject LoadingPanelExit;
         public GameObject gameOverPanel;
         public GameObject stageClearPanel;
         private bool isGameComplete;
@@ -25,8 +24,7 @@ namespace Core
 
         private void Start()
         {
-            LoadingPanelExit?.SetActive(true);
-            player = GameObject.FindWithTag(Common.ConstString.PLAYER_TAG).GetComponent<Character.PlayerController>();
+            player = GameObject.FindWithTag(Common.Constant.PLAYER_TAG).GetComponent<Character.PlayerController>();
             //init
             Environment.BGSquare.totalLightness = 0;
         }
@@ -36,6 +34,7 @@ namespace Core
             GameOverDetect(Environment.BGSquare.totalLightness, player.Energy);
         }
 
+        //it's shit... who created it
         public void GameOverDetect(int currLightness, float currEnergy)
         {
             //if (currEnergy > 0f)

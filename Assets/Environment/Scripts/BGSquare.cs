@@ -21,7 +21,7 @@ namespace Environment
             if (isLit)
                 return;
 
-            if (other.CompareTag(Common.ConstString.PLAYER_TAG))
+            if (other.CompareTag(Common.Constant.PLAYER_TAG))
             {
                 isLit = true;
                 spriteRenderer.sprite = Core.GameResourcesLoadManager.LitOnSprite;

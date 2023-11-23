@@ -98,12 +98,12 @@ namespace Character
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            if(other.CompareTag(Common.ConstString.BRICK_TAG))
+            if(other.CompareTag(Common.Constant.BRICK_TAG))
             {
                 OnMeetBrick();
             }
 
-            if(other.CompareTag(Common.ConstString.MIRROR_TAG))
+            if(other.CompareTag(Common.Constant.MIRROR_TAG))
             {
                 OnMeetMirror(-other.transform.up);
             }

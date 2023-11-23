@@ -13,7 +13,7 @@ namespace Core
             {
                 if (litOnSprite == null)
                 {
-                    litOnSprite = Resources.Load<Sprite>(Common.ConstString.LitOnBlockResPath);
+                    litOnSprite = Resources.Load<Sprite>(Common.Constant.LitOnBlockResPath);
                     if (litOnSprite == null) Debug.LogError("litOnSprite Resources Load Error!");
                     else Debug.Log("litOnSprite Resources Load correctly.");
                 }
@@ -21,5 +21,6 @@ namespace Core
                 return litOnSprite;
             }
         }
+
     }
 }

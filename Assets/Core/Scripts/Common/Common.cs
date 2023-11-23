@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Common
 {
-    public static class ConstString
+    public static class Constant
     {
         #region Tag
 
@@ -19,16 +19,14 @@ namespace Common
         public static string LitOnBlockResPath = "Environment/litBlock(on)";
 
         #endregion
+
     }
 
-    public static class Constant
+    public enum SceneIndex
     {
-        #region SceneBuildIndex
-
-        public const int MAIN_MENU_SCENE_INDEX = 0;
-        public const int LEVEL_1_SCENE_INDEX = 1;
-        public const int LEVEL_2_SCENE_INDEX = 2;
-
-        #endregion
+        MAIN_MENU = 0,
+        LEVEL_1 = 1,
+        LEVEL_2 = 2,
+        LEVEL_OUT_OF_RANGE
     }
 }
