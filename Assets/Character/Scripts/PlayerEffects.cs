@@ -8,7 +8,7 @@ namespace Character
     {
         private PlayerController playerController;
         private TrailRenderer trailRenderer;
-
+        
         private void Awake()
         {
             playerController = GetComponent<PlayerController>();
@@ -17,12 +17,18 @@ namespace Character
 
         private void Start()
         {
-            playerController.ResetTrail += ResetTrail;
+            playerController.ResetTrailAction += ResetTrail;
+            playerController.soundEffectAction += PlayMoveSound;
         }
 
         private void ResetTrail()
         {
-            trailRenderer.Clear();
+            trailRenderer?.Clear();
+        }
+
+        private void PlayMoveSound()
+        {
+            Audio.AudioManager.Instance?.PlayPlayerMoveSFX();
         }
     }
 }

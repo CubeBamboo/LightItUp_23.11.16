@@ -47,7 +47,8 @@ namespace Character
 
         #region EffectInterface
 
-        public System.Action ResetTrail;
+        public System.Action ResetTrailAction;
+        public System.Action soundEffectAction;
 
         #endregion
 
@@ -226,8 +227,9 @@ namespace Character
         {
             //energy Consumed.
             energy -= moveEnergyConsumption;
-            energyBarEffectAction();
+            energyBarEffectAction?.Invoke();
 
+            soundEffectAction?.Invoke();
             SetVelocity(dir.normalized * moveSpeed);
         }
 
@@ -251,7 +253,7 @@ namespace Character
             }
 
             transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
-            ResetTrail?.Invoke();
+            ResetTrailAction?.Invoke();
         }
 
         #endregion
@@ -303,9 +305,9 @@ namespace Character
         private void DEBUGUpdate()
         {
             //var keyboard = UnityEngine.InputSystem.Keyboard.current;
-            //if (keyboard.vKey.wasPressedThisFrame)
+            //if (keyboard.vKey.wasPressedThisFrame || keyboard.bKey.wasPressedThisFrame || keyboard.cKey.wasPressedThisFrame)
             //{
-            //    ResetTrail?.Invoke();
+                
             //}
             energyDEBUG = energy;
             currMoveDirDEBUG = currMoveDir;

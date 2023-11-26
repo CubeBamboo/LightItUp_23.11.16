@@ -14,7 +14,7 @@ namespace Core
         public float lightnessGoal => levelData.lightnessGoal;
 
         [Header("UIPanel")]
-        public GameObject gameOverPanel;
+        public GameObject gameFailPanel;
         public GameObject stageClearPanel;
         private bool isGameComplete;
 
@@ -48,19 +48,31 @@ namespace Core
 
             if(currLightness >= lightnessGoal)
             {
-                Debug.Log("Stage Clear!");
-                stageClearPanel.SetActive(true);
-                isGameComplete = true;
-                player.OnGameComplete();
+                OnStageClear();
             }
 
             if (currEnergy < 0f)
             {
-                Debug.Log("Game Over!");
-                gameOverPanel.SetActive(true);
-                isGameComplete = true;
-                player.OnGameComplete();
+                OnGameFail();
             }
+        }
+
+        private void OnStageClear()
+        {
+            Debug.Log("Stage Clear!");
+            stageClearPanel.SetActive(true);    //UI
+            isGameComplete = true;
+            player.OnGameComplete();    //playerLogic
+            Audio.AudioManager.Instance?.PlayStageClearSFX();//sound Logic
+        }
+
+        private void OnGameFail()
+        {
+            Debug.Log("Game Over!");
+            gameFailPanel.SetActive(true);  //UI
+            isGameComplete = true;
+            player.OnGameComplete();    //playerLogic
+            Audio.AudioManager.Instance?.PlayGameFailSFX();//sound Logic
         }
     }
 }

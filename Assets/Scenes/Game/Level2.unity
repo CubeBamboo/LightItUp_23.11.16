@@ -7797,7 +7797,7 @@ GameObject:
   - component: {fileID: 417012723}
   - component: {fileID: 417012725}
   m_Layer: 5
-  m_Name: GameOverPanel
+  m_Name: GameFailPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40391,6 +40391,10 @@ PrefabInstance:
       propertyPath: levelData
       value: 
       objectReference: {fileID: 11400000, guid: a883ded1cb9ce9d4cba73291ca316af5, type: 2}
+    - target: {fileID: 4074631891436374544, guid: 6ea61450357763247a730707883a7003, type: 3}
+      propertyPath: gameFailPanel
+      value: 
+      objectReference: {fileID: 417012721}
     - target: {fileID: 4074631891436374544, guid: 6ea61450357763247a730707883a7003, type: 3}
       propertyPath: gameOverPanel
       value: 

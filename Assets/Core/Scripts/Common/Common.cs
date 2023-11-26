@@ -15,9 +15,16 @@ namespace Common
 
         #endregion
 
-        #region Path
+        #region FilePath
 
         public static string LitOnBlockResPath = "Environment/litBlock(on)";
+
+        #endregion
+
+        #region GameObjectPath
+
+        public static string StageClearPanelPath = "/GamingCanvas/StageClearPanel";
+        public static string GamingFailPanelPath = "/GamingCanvas/GameFailPanel";
 
         #endregion
 
