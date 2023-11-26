@@ -10,7 +10,8 @@ namespace Core
         private Character.PlayerController player;
         
         [Header("Level Related")]
-        public float lightnessGoal;
+        public ScriptableObj.Numerical levelData;
+        public float lightnessGoal => levelData.lightnessGoal;
 
         [Header("UIPanel")]
         public GameObject gameOverPanel;
@@ -24,6 +25,7 @@ namespace Core
 
         private void Start()
         {
+            Debug.Assert(levelData != null);
             player = GameObject.FindWithTag(Common.Constant.PLAYER_TAG).GetComponent<Character.PlayerController>();
             //init
             Environment.BGSquare.totalLightness = 0;

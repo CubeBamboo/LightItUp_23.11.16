@@ -29,17 +29,25 @@ namespace Character
         public float moveEnergyConsumption;
         private Vector2 mousePos;
 
-        private Vector2 moveDir => (mousePos - vec2Position).normalized;
+        public BoxCollider2D movingCollider;
+        private Vector2 currMoveDir;    //maintain it with the movedir.
+        private Vector2 DirToMove => (mousePos - vec2Position).normalized;
 
         #endregion
 
         #region AttributionVariable
 
         private float energy;
-        public float initEnergy;
+        public float initEnergy => Core.GameManager.Instance.levelData.playerInitEnergy;
         public float energyLossPerFrame;
 
         public float Energy => energy;
+
+        #endregion
+
+        #region EffectInterface
+
+        public System.Action ResetTrail;
 
         #endregion
 
@@ -91,7 +99,7 @@ namespace Character
 
         private void FixedUpdate()
         {
-            //Move(mousePos - vec2Position);
+            //if(!movingBounds.Contains(vec2Position)) MoveBoundClamp();
             AttributionUpdate();
 
         }
@@ -103,10 +111,30 @@ namespace Character
                 OnMeetBrick();
             }
 
-            if(other.CompareTag(Common.Constant.MIRROR_TAG))
+            
+        }
+
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if(other.CompareTag(Common.Constant.MOVING_BOUNDS_TAG))
             {
-                OnMeetMirror(-other.transform.up);
+                MoveBoundSwitch();
             }
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (other.gameObject.CompareTag(Common.Constant.MIRROR_TAG))
+            {
+                OnMeetMirror(other.GetContact(0).normal);
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            //draw wirecube
+            //Gizmos.color = Color.yellow;
+            //Gizmos.DrawWireCube((Vector2)movingCollider.transform.position + movingCollider.offset, movingCollider.size);
         }
 
         #endregion
@@ -126,11 +154,9 @@ namespace Character
             switch (ctx.phase)
             {
                 case UnityEngine.InputSystem.InputActionPhase.Started:
-                    //Debug.Log("mouseClickPressed");
                     OnMousePressed();
                     break;
                 case UnityEngine.InputSystem.InputActionPhase.Canceled:
-                    //Debug.Log("mouseClickRelesed");
                     OnMouseRelesed();
                     break;
             }
@@ -163,14 +189,20 @@ namespace Character
 
             //position
             float distanceScale = 1f;
-            arrowUI.transform.position = vec2Position + moveDir * distanceScale;
+            arrowUI.transform.position = vec2Position + DirToMove * distanceScale;
             //rotation
-            arrowUI.transform.rotation *= Quaternion.FromToRotation(arrowUI.transform.right, moveDir);
+            arrowUI.transform.rotation *= Quaternion.FromToRotation(arrowUI.transform.right, DirToMove);
         }
 
         #endregion
 
         #region MoveFunction
+
+        private void SetVelocity(Vector2 value)
+        {
+            rb.velocity = value;
+            currMoveDir = value.normalized;
+        }
 
         private void OnMousePressed()
         {
@@ -187,7 +219,7 @@ namespace Character
             //close arrow UI
             SetArrowUIActivity(false);
             //move
-            Move(moveDir);
+            Move(DirToMove);
         }
 
         private void Move(Vector2 dir)
@@ -196,7 +228,30 @@ namespace Character
             energy -= moveEnergyConsumption;
             energyBarEffectAction();
 
-            rb.velocity = dir.normalized * moveSpeed;
+            SetVelocity(dir.normalized * moveSpeed);
+        }
+
+        private void MoveBoundSwitch()
+        {
+            Debug.Log("MoveBoundClamp()");
+            Vector2 newPos = vec2Position;
+            Vector2 movingColliderPos = (Vector2)movingCollider.transform.position + movingCollider.offset;
+            Vector2 movingColliderMax = movingColliderPos + movingCollider.size / 2;
+            Vector2 movingColliderMin = movingColliderPos - movingCollider.size / 2;
+
+            if(vec2Position.x > movingColliderMax.x) {
+                newPos.x = movingColliderMin.x;
+            } else if(vec2Position.x < movingColliderMin.x) {
+                newPos.x = movingColliderMax.x;
+            }
+            if(vec2Position.y > movingColliderMax.y) {
+                newPos.y = movingColliderMin.y;
+            } else if(vec2Position.y < movingColliderMin.y) {
+                newPos.y = movingColliderMax.y;
+            }
+
+            transform.position = new Vector3(newPos.x, newPos.y, transform.position.z);
+            ResetTrail?.Invoke();
         }
 
         #endregion
@@ -215,39 +270,16 @@ namespace Character
 
         private void OnMeetBrick()
         {
-            //后退
-            StartCoroutine(MeetBrickBackwards());
-            //物理计算
-            rb.velocity = Vector2.zero;
-            energy -= meetTrickEnergyLoss;
-            //残影
+            energy = -0.1f;
+            //ghost effect
             Instantiate(redGhostEffect, transform.position, Quaternion.identity);
-            //UI Effect
-            energyBarEffectAction();
-        }
-
-        private IEnumerator MeetBrickBackwards()
-        {
-            Vector2 targetPos = vec2Position - rb.velocity.normalized * meetTrickBackwardsDistance;  //要移动这么多vec2向量
-            rb.velocity = Vector2.zero;
-            float backwardsSpeed = 0.1f;
-
-            while(Vector2.Distance(targetPos, vec2Position) > 0.1f)
-            {
-                //移动
-                transform.position = Vector2.Lerp(transform.position, targetPos, backwardsSpeed);
-                yield return null;
-            }
         }
 
         //receive the normal direction of the mirror
         private void OnMeetMirror(Vector2 normalDir)
         {
-            Vector2 newDir = rb.velocity.normalized;
-            newDir *= -1;
-            Quaternion rot = Quaternion.FromToRotation(newDir, normalDir);
-            newDir = rot * rot * newDir;
-            rb.velocity = rb.velocity.magnitude * newDir;
+            //Debug.Log("MeetMirror, normalDir=" + normalDir + ", ReflectDir=" + Vector3.Reflect(currMoveDir * moveSpeed, normalDir));
+            SetVelocity(Vector3.Reflect(currMoveDir * moveSpeed, normalDir));
         }
 
         #endregion
@@ -266,15 +298,17 @@ namespace Character
 
         [Header("Debug")]
         public float energyDEBUG;
+        public Vector2 currMoveDirDEBUG;
 
         private void DEBUGUpdate()
         {
             //var keyboard = UnityEngine.InputSystem.Keyboard.current;
             //if (keyboard.vKey.wasPressedThisFrame)
             //{
-
+            //    ResetTrail?.Invoke();
             //}
             energyDEBUG = energy;
+            currMoveDirDEBUG = currMoveDir;
 
         }
 

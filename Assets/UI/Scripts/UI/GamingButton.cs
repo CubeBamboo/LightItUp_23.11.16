@@ -25,9 +25,8 @@ namespace UI
         {
             Debug.Log("Enter Next Level!");
             Common.SceneIndex nextLevelIndex = Core.MySceneManager.activeSceneIndex + 1;
-            nextLevelIndex = nextLevelIndex < Common.SceneIndex.LEVEL_OUT_OF_RANGE ? nextLevelIndex : Common.SceneIndex.MAIN_MENU;
+            nextLevelIndex = nextLevelIndex < Common.SceneIndex.LEVEL_OUT_OF_RANGE ? nextLevelIndex : Common.SceneIndex.DEMO_END;
             Core.MySceneManager.AsyncLoadSceneWithFade(nextLevelIndex);
-            //TODO: you can create a credits scene (show all the staff of the game or the game complete info.) and switch to it.
         }
 
         #endregion
@@ -67,10 +66,14 @@ namespace UI
         public void ExitGame()
         {
             Debug.Log("ExitGame.");
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
+#endif
         }
 
-        #endregion
+#endregion
 
         #region SelectLevel
 

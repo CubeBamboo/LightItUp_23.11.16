@@ -11,6 +11,7 @@ namespace Common
         public const string PLAYER_TAG = "Player";
         public const string BRICK_TAG = "Brick";
         public const string MIRROR_TAG = "Mirror";
+        public const string MOVING_BOUNDS_TAG = "MovingBounds";
 
         #endregion
 
@@ -27,6 +28,7 @@ namespace Common
         MAIN_MENU = 0,
         LEVEL_1 = 1,
         LEVEL_2 = 2,
-        LEVEL_OUT_OF_RANGE
+        LEVEL_OUT_OF_RANGE = 3,
+        DEMO_END = 3
     }
 }

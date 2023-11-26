@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6446386f0b8565d4e8ba5281b1dfe7d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  lightnessGoal: 200
+  levelData: {fileID: 0}
   gameOverPanel: {fileID: 0}
   stageClearPanel: {fileID: 0}

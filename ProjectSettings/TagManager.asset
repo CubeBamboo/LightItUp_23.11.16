@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Brick
   - Mirror
+  - MovingBounds
   layers:
   - Default
   - TransparentFX
