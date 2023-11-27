@@ -26,7 +26,7 @@ namespace Core
         private void Start()
         {
             Debug.Assert(levelData != null);
-            player = GameObject.FindWithTag(Common.Constant.PLAYER_TAG).GetComponent<Character.PlayerController>();
+            player = GameObject.Find(Common.Constant.PLAYER_PATH).GetComponent<Character.PlayerController>();
             //init
             Environment.BGSquare.totalLightness = 0;
         }
@@ -59,20 +59,32 @@ namespace Core
 
         private void OnStageClear()
         {
+            StartCoroutine(OnStageClearCoroutie());
+        }
+
+        private IEnumerator OnStageClearCoroutie()
+        {
             Debug.Log("Stage Clear!");
-            stageClearPanel.SetActive(true);    //UI
+            Audio.AudioManager.Instance?.PlayStageClearSFX();//sound Logic
             isGameComplete = true;
             player.OnGameComplete();    //playerLogic
-            Audio.AudioManager.Instance?.PlayStageClearSFX();//sound Logic
+            yield return new WaitForSeconds(1.0f);  //delayTime
+            stageClearPanel.SetActive(true);    //UI
         }
 
         private void OnGameFail()
         {
+            StartCoroutine(OnGameFailCoroutie());
+        }
+
+        private IEnumerator OnGameFailCoroutie()
+        {
             Debug.Log("Game Over!");
-            gameFailPanel.SetActive(true);  //UI
+            Audio.AudioManager.Instance?.PlayGameFailSFX();//sound Logic
             isGameComplete = true;
             player.OnGameComplete();    //playerLogic
-            Audio.AudioManager.Instance?.PlayGameFailSFX();//sound Logic
+            yield return new WaitForSeconds(1.0f);  //delayTime
+            gameFailPanel.SetActive(true);  //UI
         }
     }
 }

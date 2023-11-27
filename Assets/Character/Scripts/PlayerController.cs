@@ -10,6 +10,7 @@ namespace Character
 
         private Rigidbody2D rb;
         private UnityEngine.InputSystem.PlayerInput playerInput;
+        private SpriteRenderer spriteRenderer;
 
         private Vector2 vec2Position => transform.position;
 
@@ -84,6 +85,7 @@ namespace Character
         {
             rb = GetComponent<Rigidbody2D>();
             playerInput = GetComponent<UnityEngine.InputSystem.PlayerInput>();
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         }
 
         private void Start()
@@ -292,6 +294,7 @@ namespace Character
         {
             playerInput.enabled = false;
             rb.bodyType = RigidbodyType2D.Static;
+            spriteRenderer.enabled = false;
         }
 
         #endregion

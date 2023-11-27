@@ -8,11 +8,12 @@ namespace UI
     {
         public UnityEngine.UI.Text scoreText;
         public UnityEngine.UI.Image energyBarBG, energyBarContent;
-        public Character.PlayerController player;
+        private Character.PlayerController player;
         public GameObject dropArrowEffect;
 
         private void Start()
         {
+            player = GameObject.Find(Common.Constant.PLAYER_PATH).GetComponent<Character.PlayerController>();
             player.energyBarEffectAction += DropArrowEffect;
         }
 
