@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace UI
 {
-    public class ButtonSFX : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
+    public class NormalButtonEvent : MonoBehaviour, IPointerEnterHandler, IPointerClickHandler
     {
         public void OnPointerEnter(PointerEventData eventData)
         {

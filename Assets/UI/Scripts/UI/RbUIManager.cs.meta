@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 6b24f117906fbf04c82c65e6be3bd557
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - UICollider: {instanceID: 0}
+  - playerColl: {instanceID: 0}
+  - physicsMaterial: {fileID: 6200000, guid: c0bd8ffb587ed67428f1a6f04695cadf, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

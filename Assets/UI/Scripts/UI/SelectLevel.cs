@@ -14,15 +14,5 @@ namespace UI
             Instance.mainMenuCanvas.SetActive(true);
             Instance.gameObject.SetActive(false);
         }
-
-        public static void EnterLevel1()
-        {
-            Core.MySceneManager.AsyncLoadSceneWithFade(Common.SceneIndex.LEVEL_1);
-        }
-
-        public static void EnterLevel2()
-        {
-            Core.MySceneManager.AsyncLoadSceneWithFade(Common.SceneIndex.LEVEL_2);
-        }
     }
 }

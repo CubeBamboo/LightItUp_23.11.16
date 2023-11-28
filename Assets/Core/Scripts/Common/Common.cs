@@ -29,6 +29,12 @@ namespace Common
 
         #endregion
 
+        #region GameObjectName
+
+        public const string RB_TEXT_NAME = "RbText";
+
+        #endregion
+
     }
 
     public enum SceneIndex

@@ -68,7 +68,7 @@ namespace Core
             Audio.AudioManager.Instance?.PlayStageClearSFX();//sound Logic
             isGameComplete = true;
             player.OnGameComplete();    //playerLogic
-            yield return new WaitForSeconds(1.0f);  //delayTime
+            yield return new WaitForSeconds(0.4f);  //delayTime
             stageClearPanel.SetActive(true);    //UI
         }
 
@@ -82,8 +82,8 @@ namespace Core
             Debug.Log("Game Over!");
             Audio.AudioManager.Instance?.PlayGameFailSFX();//sound Logic
             isGameComplete = true;
-            player.OnGameComplete();    //playerLogic
-            yield return new WaitForSeconds(1.0f);  //delayTime
+            player.OnGameComplete(); player.OnPlayerDie();   //playerLogic
+            yield return new WaitForSeconds(0.2f);  //delayTime
             gameFailPanel.SetActive(true);  //UI
         }
     }

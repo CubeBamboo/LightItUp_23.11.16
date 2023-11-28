@@ -10,6 +10,7 @@ namespace ScriptableObj
         public AudioClip bgm;
         public AudioClip buttonHighlightedSFX, buttonPressedSFX;
         public AudioClip stageClearSFX, gameFailSFX;
+        public AudioClip menuCollisionSFX;
         public AudioClip playerMove;
         public AudioClip sampleSFX;
     }

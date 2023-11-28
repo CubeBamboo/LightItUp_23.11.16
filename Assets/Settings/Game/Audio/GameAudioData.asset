@@ -17,5 +17,6 @@ MonoBehaviour:
   buttonPressedSFX: {fileID: 8300000, guid: 8e746bda97a9f634f9c225c03bd4bfcb, type: 3}
   stageClearSFX: {fileID: 8300000, guid: 4345fee3fb20cf74aa45e5b8f2fb226d, type: 3}
   gameFailSFX: {fileID: 8300000, guid: 7e30129da072ff64bb5673ddbfa4ba54, type: 3}
+  menuCollisionSFX: {fileID: 8300000, guid: 7a30cc12e9d84664fbfdc103bfab870a, type: 3}
   playerMove: {fileID: 8300000, guid: c0bab065919cfed46a8a238b32542c5c, type: 3}
   sampleSFX: {fileID: 0}

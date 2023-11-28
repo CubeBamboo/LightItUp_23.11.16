@@ -84,12 +84,12 @@ namespace UI
 
         public void EnterLevel1()
         {
-            SelectLevel.EnterLevel1();
+            Core.MySceneManager.EnterLevel(Common.SceneIndex.LEVEL_1);
         }
 
         public void EnterLevel2()
         {
-            SelectLevel.EnterLevel2();
+            Core.MySceneManager.EnterLevel(Common.SceneIndex.LEVEL_2);
         }
 
         #endregion

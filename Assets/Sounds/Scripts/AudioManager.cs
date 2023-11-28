@@ -10,6 +10,9 @@ namespace Audio
         private AudioSource sfxSource;
         public ScriptableObj.AudioClipsData clipsData;
 
+        public float minSfxPlayTime; //min sfxPlay Interval.
+        private float lastSfxPlayTime; //sfxPlaying Timer.
+
         protected override void Awake()
         {
             base.Awake();
@@ -24,6 +27,13 @@ namespace Audio
             PlayBgm();
         }
 
+        //private void Update()
+        //{
+        //    //SfxSourceVolumnUpdate();
+        //}
+
+        #region PlayAudio
+
         /// <summary>
         /// To play bgm. Call On GameStart.
         /// </summary>
@@ -34,35 +44,65 @@ namespace Audio
             bgmSource.Play();
         }
 
-        private void PlaySound(AudioClip audioClip)
+        private void PlaySfxSound(AudioClip audioClip)
         {
+            if (Time.time - lastSfxPlayTime < minSfxPlayTime) return;
+
             sfxSource.clip = audioClip;
             sfxSource.Play();
+            lastSfxPlayTime = Time.time;
         }
+
+        //private void SfxSourceVolumnUpdate()
+        //{
+        //    sfxSource.volume = Mathf.Lerp(0, 1, LerpSFXVolumn(Time.time - lastSfxPlayTime));
+        //}
+
+        //private float LerpSFXVolumn(float interval)
+        //{
+        //    if (interval > 0f && interval < 0.1f) return 10 * interval;
+        //    else return 1f;
+        //}
 
         public void PlayButtonHighlightedSFX()
         {
-            PlaySound(clipsData.buttonHighlightedSFX);
+            PlaySfxSound(clipsData.buttonHighlightedSFX);
         }
 
         public void PlayButtonPressedSFX()
         {
-            PlaySound(clipsData.buttonPressedSFX);
+            PlaySfxSound(clipsData.buttonPressedSFX);
         }
 
         public void PlayStageClearSFX()
         {
-            PlaySound(clipsData.stageClearSFX);
+            PlaySfxSound(clipsData.stageClearSFX);
         }
 
         public void PlayGameFailSFX()
         {
-            PlaySound(clipsData.gameFailSFX);
+            PlaySfxSound(clipsData.gameFailSFX);
         }
 
         public void PlayPlayerMoveSFX()
         {
-            PlaySound(clipsData.playerMove);
+            PlaySfxSound(clipsData.playerMove);
         }
+
+        public void PlayMenuCollisionSFX()
+        {
+            PlaySfxSound(clipsData.menuCollisionSFX);
+        }
+
+        #endregion
+
+        #region Other
+
+        public bool IsSFXPlaying()
+        {
+            return sfxSource.isPlaying;
+        }
+
+        #endregion
     }
 }

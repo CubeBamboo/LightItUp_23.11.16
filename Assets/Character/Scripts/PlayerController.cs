@@ -39,7 +39,7 @@ namespace Character
         #region AttributionVariable
 
         private float energy;
-        public float initEnergy => Core.GameManager.Instance.levelData.playerInitEnergy;
+        public float initEnergy => Core.GameManager.Instance ? Core.GameManager.Instance.levelData.playerInitEnergy : 50f; //custom or defalult Value
         public float energyLossPerFrame;
 
         public float Energy => energy;
@@ -56,8 +56,8 @@ namespace Character
         #region TriggerVariable
 
         [Header("Trigger Related")]
-        public float meetTrickEnergyLoss;
-        public float meetTrickBackwardsDistance;
+        //public float meetTrickEnergyLoss;
+        //public float meetTrickBackwardsDistance;
         public GameObject redGhostEffect;
 
         #endregion
@@ -212,13 +212,14 @@ namespace Character
             //show arrow UI
             SetArrowUIActivity(true);
             //enter speedbreaker
-            Time.timeScale = 0.0f;
+            //Time.timeScale = 0.0f;
+            SetVelocity(Vector2.zero);
         }
 
         private void OnMouseRelesed()
         {
             //exit speedbreaker
-            Time.timeScale = 1f;
+            //Time.timeScale = 1f;
             //close arrow UI
             SetArrowUIActivity(false);
             //move
@@ -275,8 +276,7 @@ namespace Character
         private void OnMeetBrick()
         {
             energy = -0.1f;
-            //ghost effect
-            Instantiate(redGhostEffect, transform.position, Quaternion.identity);
+            OnPlayerDie();
         }
 
         //receive the normal direction of the mirror
@@ -297,6 +297,12 @@ namespace Character
             spriteRenderer.enabled = false;
         }
 
+        public void OnPlayerDie()
+        {
+            //ghost effect
+            Instantiate(redGhostEffect, transform.position, Quaternion.identity);
+        }
+
         #endregion
 
         #region Debug
@@ -308,7 +314,8 @@ namespace Character
         private void DEBUGUpdate()
         {
             //var keyboard = UnityEngine.InputSystem.Keyboard.current;
-            //if (keyboard.vKey.wasPressedThisFrame || keyboard.bKey.wasPressedThisFrame || keyboard.cKey.wasPressedThisFrame)
+            ////if (keyboard.vKey.wasPressedThisFrame || keyboard.bKey.wasPressedThisFrame || keyboard.cKey.wasPressedThisFrame)
+            //if (keyboard.vKey.wasPressedThisFrame)
             //{
                 
             //}

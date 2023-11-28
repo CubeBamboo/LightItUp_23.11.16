@@ -52,5 +52,23 @@ namespace Core
         }
 
         #endregion
+
+        #region EnterLevel
+
+        public static void EnterLevel(Common.SceneIndex sceneIndex)
+        {
+            Instance.StartCoroutine(ToEnterLevel(sceneIndex));
+        }
+
+        private static IEnumerator ToEnterLevel(Common.SceneIndex sceneIndex)
+        {
+            Debug.Log("startEnterLevel Coroutine.");
+            yield return new WaitForSeconds(4.0f); //timeDelay
+            //Debug.Log("endEnterLevel Coroutine.");
+            AsyncLoadSceneWithFade(sceneIndex);
+
+        }
+
+        #endregion
     }
 }
