@@ -35,6 +35,12 @@ namespace Common
         public const string MAIN_CAMERA_NAME = "Main Camera";
         public const string RB_CANVAS_BUTTON_FATHER_NAME = "ButtonSet/";
 
+        #endregion
+
+        #region InputControlSchemes
+
+        public const string MOUSE_KEYBOARD_SCHEMES = "Keyboard&Mouse";
+        public const string GAMEPAD_SCHEMES = "Gamepad";
 
         #endregion
 
@@ -45,7 +51,8 @@ namespace Common
         MAIN_MENU = 0,
         LEVEL_1 = 1,
         LEVEL_2 = 2,
-        LEVEL_OUT_OF_RANGE = 3,
-        DEMO_END = 3
+        LEVEL_3 = 3,
+        LEVEL_OUT_OF_RANGE,
+        DEMO_END = 4
     }
 }

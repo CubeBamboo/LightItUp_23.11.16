@@ -9788,14 +9788,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5876043271662547628}
-  m_LocalRotation: {x: 0, y: 0, z: 0.3146552, w: 0.94920605}
-  m_LocalPosition: {x: 1.393, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.73, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5876043273460035054}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 36.68}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5876043271662547626
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9837,7 +9837,7 @@ SpriteRenderer:
   m_SortingLayerID: -1546717873
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: -316179113, guid: 5a3a08d71f4a1994a9b7ca7b873ba43e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 93c7758e7453ddb4aaca0d0d7d2e8213, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9987,12 +9987,9 @@ MonoBehaviour:
   moveEnergyConsumption: 20
   movingCollider: {fileID: 0}
   energyLossPerFrame: 0.1
-  meetTrickEnergyLoss: 20
-  meetTrickBackwardsDistance: 2
   redGhostEffect: {fileID: 6264251766338594781, guid: 489a42b8432791a419d8f217580c1802, type: 3}
   arrowUI: {fileID: 5876043271662547628}
   energyDEBUG: 0
-  currMoveDirDEBUG: {x: 0, y: 0}
 --- !u!114 &1707004291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10038,7 +10035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 8c50a8e72141872419acce3b49e1b924, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: e40312d713c80d2458fc69a575cb5342, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -10051,22 +10048,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5876043272498509496}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnGetMousePosInput
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: e0710b5c-5813-4cbf-9e45-f3305c81c6d0
-    m_ActionName: Player/MouseMove[/Mouse/position]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: a0a8640a-892a-4275-aa09-e903e636a95f
@@ -10114,8 +10095,8 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5876043272498509496}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnMouseClick
+        m_TargetAssemblyTypeName: Character.PlayerController, Assembly-CSharp
+        m_MethodName: OnMoveButton
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10127,6 +10108,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b1116bcf-8521-4b8e-b7cb-a6bc2dd83d62
     m_ActionName: Player/MouseRightClick[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5876043272498509496}
+        m_TargetAssemblyTypeName: Character.PlayerController, Assembly-CSharp
+        m_MethodName: OnMoveDirInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e0710b5c-5813-4cbf-9e45-f3305c81c6d0
+    m_ActionName: Player/MouseMove[/Mouse/position]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -10147,7 +10144,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.25
+  m_Radius: 0.3
 --- !u!1 &5876043273460035041
 GameObject:
   m_ObjectHideFlags: 0

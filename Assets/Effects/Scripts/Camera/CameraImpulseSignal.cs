@@ -48,7 +48,7 @@ namespace CustomCamera
 
         private IEnumerator OnImpulse()
         {
-            Debug.Log("Camera Impulse");
+            //Debug.Log("Camera Impulse");
             isPlaying = true;
             float partInterval = virboTime / vibroFrequency;
             Vector3 initPos = transform.position;

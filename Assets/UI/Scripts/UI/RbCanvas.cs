@@ -11,6 +11,6 @@ public class RbCanvas : MonoBehaviour
         {
             rb.bodyType = RigidbodyType2D.Static; //set the selectButton
         }
-        Debug.Log("EventHappened: name = " + name + ", child = " + child);
+        //Debug.Log("EventHappened: name = " + name + ", child = " + child);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Character
 {
@@ -31,8 +32,8 @@ namespace Character
         private Vector2 mousePos;
 
         public BoxCollider2D movingCollider;
-        private Vector2 currMoveDir;    //maintain it with the movedir.
-        private Vector2 DirToMove => (mousePos - vec2Position).normalized;
+        private Vector2 lastSetMoveDir; //To resolve the speedDir compute, get the moveDir after the moveDirection changed.
+        private Vector2 dirToMove;
 
         #endregion
 
@@ -115,8 +116,6 @@ namespace Character
             {
                 OnMeetBrick();
             }
-
-            
         }
 
         private void OnTriggerExit2D(Collider2D other)
@@ -135,34 +134,38 @@ namespace Character
             }
         }
 
-        //private void OnDrawGizmosSelected()
-        //{
-        //    //draw wirecube
-        //    //Gizmos.color = Color.yellow;
-        //    //Gizmos.DrawWireCube((Vector2)movingCollider.transform.position + movingCollider.offset, movingCollider.size);
-        //}
-
         #endregion
 
         #region InputEventFunction
 
-        public void OnGetMousePosInput(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+        public void OnMoveDirInput(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
         {
-            if (mainCamera != null)
-                mousePos = mainCamera.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
-            else
-                Debug.LogWarning("Camera is unassigned!");
+            switch(playerInput.currentControlScheme)
+            {
+                case Common.Constant.MOUSE_KEYBOARD_SCHEMES:
+                    if (mainCamera != null) mousePos = mainCamera.ScreenToWorldPoint(ctx.ReadValue<Vector2>());
+                    else Debug.Log("Camera is unassigned!");
+                    
+                    dirToMove = mousePos - vec2Position;
+                    dirToMove = dirToMove.normalized;
+                    break;
+
+                case Common.Constant.GAMEPAD_SCHEMES:
+                    dirToMove = ctx.ReadValue<Vector2>();
+                    break;
+            }
+            
         }
 
-        public void OnMouseClick(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
+        public void OnMoveButton(UnityEngine.InputSystem.InputAction.CallbackContext ctx)
         {
             switch (ctx.phase)
             {
                 case UnityEngine.InputSystem.InputActionPhase.Started:
-                    OnMousePressed();
+                    OnMoveButtonPressed();
                     break;
                 case UnityEngine.InputSystem.InputActionPhase.Canceled:
-                    OnMouseRelesed();
+                    OnMoveButtonRelesed();
                     break;
             }
         }
@@ -193,10 +196,10 @@ namespace Character
                 return;
 
             //position
-            float distanceScale = 1f;
-            arrowUI.transform.position = vec2Position + DirToMove * distanceScale;
+            float distanceScale = 0.6f;
+            arrowUI.transform.position = vec2Position + dirToMove.normalized * distanceScale;
             //rotation
-            arrowUI.transform.rotation *= Quaternion.FromToRotation(arrowUI.transform.right, DirToMove);
+            arrowUI.transform.rotation *= Quaternion.FromToRotation(arrowUI.transform.right, dirToMove);
         }
 
         #endregion
@@ -206,30 +209,34 @@ namespace Character
         private void SetVelocity(Vector2 value)
         {
             rb.velocity = value;
-            currMoveDir = value.normalized;
+            lastSetMoveDir = value.normalized;
         }
 
-        private void OnMousePressed()
+        private void OnMoveButtonPressed()
         {
             //show arrow UI
             SetArrowUIActivity(true);
             //enter speedbreaker
-            //Time.timeScale = 0.0f;
-            SetVelocity(Vector2.zero);
+            rb.velocity = Vector2.zero;
         }
 
-        private void OnMouseRelesed()
+        private void OnMoveButtonRelesed()
         {
-            //exit speedbreaker
-            //Time.timeScale = 1f;
             //close arrow UI
             SetArrowUIActivity(false);
+            
             //move
-            Move(DirToMove);
+            Move(dirToMove);
         }
 
         private void Move(Vector2 dir)
         {
+            if (dir == Vector2.zero)
+            {
+                rb.velocity = lastSetMoveDir * moveSpeed;
+                return;
+            }
+
             //energy Consumed.
             energy -= moveEnergyConsumption;
             energyBarEffectAction?.Invoke();
@@ -285,8 +292,8 @@ namespace Character
         //receive the normal direction of the mirror
         private void OnMeetMirror(Vector2 normalDir)
         {
-            //Debug.Log("MeetMirror, normalDir=" + normalDir + ", ReflectDir=" + Vector3.Reflect(currMoveDir * moveSpeed, normalDir));
-            SetVelocity(Vector3.Reflect(currMoveDir * moveSpeed, normalDir));
+            //Debug.Log($"MeetMirror, currentVec = {lastSetMoveDir*moveSpeed},  normalDir={normalDir}, ReflectDir={Vector3.Reflect(lastSetMoveDir * moveSpeed, normalDir)}");
+            SetVelocity(Vector3.Reflect(lastSetMoveDir * moveSpeed, normalDir));
         }
 
         #endregion
@@ -314,7 +321,9 @@ namespace Character
 
         [Header("Debug")]
         public float energyDEBUG;
-        public Vector2 currMoveDirDEBUG;
+        //public Vector2 currMoveDirDEBUG;
+        //public Vector2 mousePosDEBUG;
+        //public string currentControlSchemeDebug;
 
         private void DEBUGUpdate()
         {
@@ -322,10 +331,12 @@ namespace Character
             ////if (keyboard.vKey.wasPressedThisFrame || keyboard.bKey.wasPressedThisFrame || keyboard.cKey.wasPressedThisFrame)
             //if (keyboard.vKey.wasPressedThisFrame)
             //{
-                
+
             //}
+            //mousePos = mousePosDEBUG;
+            //currentControlSchemeDebug = playerInput.currentControlScheme;
+            //currMoveDirDEBUG = CurrMoveDir;
             energyDEBUG = energy;
-            currMoveDirDEBUG = currMoveDir;
 
         }
 

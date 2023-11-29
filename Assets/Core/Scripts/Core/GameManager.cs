@@ -64,7 +64,7 @@ namespace Core
 
         private IEnumerator OnStageClearCoroutie()
         {
-            Debug.Log("Stage Clear!");
+            //Debug.Log("Stage Clear!");
             Audio.AudioManager.Instance?.PlayStageClearSFX();//sound Logic
             isGameComplete = true;
             player.OnGameComplete();    //playerLogic
@@ -79,7 +79,7 @@ namespace Core
 
         private IEnumerator OnGameFailCoroutie()
         {
-            Debug.Log("Game Over!");
+            //Debug.Log("Game Over!");
             Audio.AudioManager.Instance?.PlayGameFailSFX();//sound Logic
             isGameComplete = true;
             player.OnGameComplete(); player.OnPlayerDie();   //playerLogic
