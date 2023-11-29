@@ -14,6 +14,11 @@ namespace CustomCamera
         private void OnCollisionEnter2D(Collision2D other)
         {
             //Debug.Log("Collision Hit");
+            Impulse();
+        }
+
+        public static void Impulse()
+        {
             Notify?.Invoke();
         }
 

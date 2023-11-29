@@ -97,7 +97,9 @@ namespace Character
         private void Update()
         {
             if (isArrowUIShowing) ArrowUIUpdate();
+#if UNITY_EDITOR
             DEBUGUpdate();
+#endif
         }
 
         private void FixedUpdate()
@@ -133,12 +135,12 @@ namespace Character
             }
         }
 
-        private void OnDrawGizmosSelected()
-        {
-            //draw wirecube
-            //Gizmos.color = Color.yellow;
-            //Gizmos.DrawWireCube((Vector2)movingCollider.transform.position + movingCollider.offset, movingCollider.size);
-        }
+        //private void OnDrawGizmosSelected()
+        //{
+        //    //draw wirecube
+        //    //Gizmos.color = Color.yellow;
+        //    //Gizmos.DrawWireCube((Vector2)movingCollider.transform.position + movingCollider.offset, movingCollider.size);
+        //}
 
         #endregion
 
@@ -238,12 +240,13 @@ namespace Character
 
         private void MoveBoundSwitch()
         {
-            Debug.Log("MoveBoundClamp()");
+            //Debug.Log("MoveBoundClamp()");
             Vector2 newPos = vec2Position;
             Vector2 movingColliderPos = (Vector2)movingCollider.transform.position + movingCollider.offset;
             Vector2 movingColliderMax = movingColliderPos + movingCollider.size / 2;
             Vector2 movingColliderMin = movingColliderPos - movingCollider.size / 2;
 
+            //TODO: elegant?
             if(vec2Position.x > movingColliderMax.x) {
                 newPos.x = movingColliderMin.x;
             } else if(vec2Position.x < movingColliderMin.x) {
@@ -301,6 +304,8 @@ namespace Character
         {
             //ghost effect
             Instantiate(redGhostEffect, transform.position, Quaternion.identity);
+            //camera shake
+            CustomCamera.CameraCollisionImpulseSource.Impulse(); //TODO: waht... i dont know what i am coding.
         }
 
         #endregion

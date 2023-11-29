@@ -15,7 +15,7 @@ namespace Core
                 {
                     litOnSprite = Resources.Load<Sprite>(Common.Constant.LIT_ON_BLOCK_RES_PATH);
                     if (litOnSprite == null) Debug.LogError("litOnSprite Resources Load Error!");
-                    else Debug.Log("litOnSprite Resources Load correctly.");
+                    //else Debug.Log("litOnSprite Resources Load correctly.");
                 }
 
                 return litOnSprite;

@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: cff2d7f05d3681a41ba987cd927c735d
+guid: 8511df754afc7484dae93066d02de61f
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - physicsMaterial: {fileID: 6200000, guid: c0bd8ffb587ed67428f1a6f04695cadf, type: 2}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

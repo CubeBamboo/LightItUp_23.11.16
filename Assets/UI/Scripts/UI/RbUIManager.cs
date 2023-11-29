@@ -6,53 +6,38 @@ namespace UI
 {
     public class RbUIManager : Framework.MonoSingleton<RbUIManager>
     {
-        //public List<Rigidbody2D> AllRbUI;
-        //public GameObject UICollider;
         public Character.PlayerController player;
-        //public PhysicsMaterial2D physicsMaterial;
         public GameObject selectLevelCanvas;
         public GameObject rbCanvasPrefab;
+        
 
         protected override void Awake()
         {
             base.Awake();
-            //AllRbUI = new List<Rigidbody2D>();
         }
 
-        /*
-        [System.Obsolete]
-        public static void OnEventHappenedOld(Rigidbody2D it)
+        public static void EventHappened()
         {
-            Debug.Log("RbUI Event.");
-            Instance.AllRbUI.Remove(it);
-
-            //dynamic rb
-            foreach (var rbUI in Instance.AllRbUI)
-            {
-                rbUI.bodyType = RigidbodyType2D.Dynamic;
-            }
-
-            //inactive button
-
-            //UI & player Collider
-            Instance.UICollider.SetActive(true);
-            if (Instance.playerColl)
-            {
-                Instance.playerColl.isTrigger = false;
-                Instance.playerColl.sharedMaterial = Instance.physicsMaterial;
-            }
+            OnEventHappened();
         }
-        */
 
-        public static void OnEventHappened()
+        public static void EventHappened(string name)
+        {
+            var canvas = OnEventHappened();
+            canvas.GetComponent<RbCanvas>().SetLevelButton(name);
+        }
+
+        private static GameObject OnEventHappened()
         {
             //Debug.Log("RbUI Event.");
-            //Òþ²Øselect Level UI
+            //hide select Level UI
             Instance.selectLevelCanvas.SetActive(false);
-            //Éú³ÉrbCanvas prefab
+            //Instantiate rbCanvas prefab
             var canvas = Instantiate(Instance.rbCanvasPrefab);
-            //Ïú»Ùplayer
+            //destroy player
             Instance.player.OnGameComplete(); Instance.player.OnPlayerDie();
+
+            return canvas;
         }
     }
 }

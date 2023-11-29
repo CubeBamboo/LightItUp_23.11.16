@@ -17,21 +17,24 @@ namespace Common
 
         #region FilePath
 
-        public static string LIT_ON_BLOCK_RES_PATH = "Environment/litBlock(on)";
+        public const string LIT_ON_BLOCK_RES_PATH = "Environment/litBlock(on)";
 
         #endregion
 
         #region GameObjectPath
 
-        public static string StageClearPanelPath = "/GamingCanvas/StageClearPanel";
-        public static string GamingFailPanelPath = "/GamingCanvas/GameFailPanel";
-        public static string PLAYER_PATH = "/Player";
+        //public static string StageClearPanelPath = "/GamingCanvas/StageClearPanel";
+        //public static string GamingFailPanelPath = "/GamingCanvas/GameFailPanel";
+        public const string PLAYER_PATH = "/Player";
 
         #endregion
 
         #region GameObjectName
 
         public const string RB_TEXT_NAME = "RbText";
+        public const string MAIN_CAMERA_NAME = "Main Camera";
+        public const string RB_CANVAS_BUTTON_FATHER_NAME = "ButtonSet/";
+
 
         #endregion
 

@@ -7,6 +7,7 @@ namespace Audio
     public class AudioManager : Framework.MonoSingleton<AudioManager>
     {
         private AudioSource bgmSource;
+        private AudioSource playerSource;
         private AudioSource sfxSource;
         public ScriptableObj.AudioClipsData clipsData;
 
@@ -20,6 +21,7 @@ namespace Audio
 
             bgmSource = gameObject.AddComponent<AudioSource>();
             sfxSource = gameObject.AddComponent<AudioSource>();
+            playerSource = gameObject.AddComponent<AudioSource>();
         }
 
         private void Start()
@@ -53,16 +55,11 @@ namespace Audio
             lastSfxPlayTime = Time.time;
         }
 
-        //private void SfxSourceVolumnUpdate()
-        //{
-        //    sfxSource.volume = Mathf.Lerp(0, 1, LerpSFXVolumn(Time.time - lastSfxPlayTime));
-        //}
-
-        //private float LerpSFXVolumn(float interval)
-        //{
-        //    if (interval > 0f && interval < 0.1f) return 10 * interval;
-        //    else return 1f;
-        //}
+        private void PlayPlayerSound(AudioClip audioClip)
+        {
+            playerSource.clip = audioClip;
+            playerSource.Play();
+        }
 
         public void PlayButtonHighlightedSFX()
         {
@@ -76,20 +73,20 @@ namespace Audio
 
         public void PlayStageClearSFX()
         {
-            PlaySfxSound(clipsData.stageClearSFX);
+            PlayPlayerSound(clipsData.stageClearSFX);
         }
 
         public void PlayGameFailSFX()
         {
-            PlaySfxSound(clipsData.gameFailSFX);
+            PlayPlayerSound(clipsData.gameFailSFX);
         }
 
         public void PlayPlayerMoveSFX()
         {
-            PlaySfxSound(clipsData.playerMove);
+            PlayPlayerSound(clipsData.playerMove);
         }
 
-        public void PlayMenuCollisionSFX()
+        public void PlayCollisionSFX()
         {
             PlaySfxSound(clipsData.menuCollisionSFX);
         }

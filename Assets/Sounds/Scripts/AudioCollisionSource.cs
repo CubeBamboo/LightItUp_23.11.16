@@ -10,7 +10,7 @@ namespace Audio
         {
             if (!AudioManager.Instance) return;
 
-            AudioManager.Instance.PlayMenuCollisionSFX();
+            AudioManager.Instance.PlayCollisionSFX();
         }
     }
 }

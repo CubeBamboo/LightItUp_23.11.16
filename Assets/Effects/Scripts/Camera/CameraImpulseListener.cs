@@ -7,6 +7,7 @@ namespace CustomCamera
     /// <summary>
     /// ¼àÌýÊÂ¼þ
     /// </summary>
+    [RequireComponent(typeof(CameraImpulseSignal))]
     public class CameraImpulseListener : MonoBehaviour
     {
         private CameraImpulseSignal signal;
@@ -24,6 +25,11 @@ namespace CustomCamera
         private void OnNotify()
         {
             signal.Impulse();
+        }
+
+        private void OnDestroy()
+        {
+            CameraCollisionImpulseSource.Notify -= OnNotify;
         }
     }
 }

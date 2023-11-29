@@ -19,13 +19,19 @@ namespace Core
             DontDestroyOnLoad(gameObject);
         }
 
+        //private void Start()
+        //{
+        //    //Debug.Log("Camera.current:" + Camera.current);
+        //    gameObject.GetComponent<Canvas>().worldCamera = Camera.main;
+        //}
+
         #region AsyncLoadScene
 
         public static void AsyncLoadSceneWithFade(Common.SceneIndex sceneBuildIndex)
         {
             if (Instance)
             {
-                if (Instance.LoadingCoroutine != null) return;
+                if (Instance.LoadingCoroutine != null) return; //加载协程正在运行 LoadingCoroutine's throttle. 
 
                 Instance.LoadingCoroutine = Instance.StartCoroutine(pAsyncLoadSceneWithFade((int)sceneBuildIndex));
             }
